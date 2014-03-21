@@ -1,0 +1,29 @@
+---
+# Installs MySQL, create MySQL user 'marketing'
+# Imports database 'locations'
+# Assigns full permissions for database 'locations' to MySQL user 'marketing'
+
+- name: Install Mysql package
+  yum: name={{ item }} state=installed
+  with_items:
+   - MySQL-python
+   - mysql
+   - mysql-server
+
+- name: Configure SELinux to start mysql on any port
+  seboolean: name=mysql_connect_any state=true persistent=yes
+  when: sestatus.rc != 0
+
+- name: Create Mysql configuration file
+  template: src=my.cnf.j2 dest=/etc/my.cnf
+  notify: 
+  - restart mysql
+
+- name: Start Mysql Service
+  service: name=mysqld state=started enabled=true
+
+- name: Import Application Database
+  - import database
+
+- name: Create Application DB User
+  mysql_user: name={{ dbuser }} password={{ dbuserpassword }} priv=*.*:ALL host='%' state=present

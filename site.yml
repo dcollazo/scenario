@@ -1,0 +1,23 @@
+---
+# This playbook sets up, solves, and checks a scenario
+
+- name: set up scenario
+  hosts: 127.0.0.1
+  user: root
+
+  roles:
+    - setup
+
+- name: solve scenario
+  hosts: 127.0.0.1
+  user: root
+
+  roles:
+    - solve
+
+- name: check scenario
+  hosts: dbservers
+  user: root
+
+  roles:
+    - check
