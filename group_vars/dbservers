@@ -1,6 +1,0 @@
-mysqlservice: mysqld
-mysql_port: 3306
-dbroot: root
-dbrootpassword: A2lsdF3
-dbuser: marketing
-dbuserpassword: XYZmarketing
